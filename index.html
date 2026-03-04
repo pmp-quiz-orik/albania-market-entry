@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>NLB Albania Market Entry</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#071A2C;--bg2:#0C2340;--card:#112A45;--gold:#D4AF6A;--white:#F2F2F2;--gray:#A8B3C2;--green:#2ECC71;--red:#E74C3C;--blue:#5DADE2;--border:#1A3A5C}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--white);overflow:hidden;height:100vh;width:100vw;-webkit-user-select:none;user-select:none}
+.deck{position:relative;width:100%;height:100%}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;padding:16px 18px 70px;overflow-y:auto;overflow-x:hidden;display:none;opacity:0;transition:opacity .35s ease;-webkit-overflow-scrolling:touch}
+.slide.active{display:block;opacity:1}
+.slide h1{font-size:22px;color:var(--white);margin-bottom:6px;line-height:1.25}
+.slide h1 .gold{color:var(--gold)}
+.slide .sub{font-size:13px;color:var(--gray);margin-bottom:14px;line-height:1.4}
+.slide h2{font-size:17px;color:var(--gold);margin:12px 0 8px;border-bottom:1px solid var(--border);padding-bottom:4px}
+.slide h3{font-size:14px;color:var(--gold);margin:10px 0 5px}
+.badge{display:inline-block;background:#0F3426;color:var(--green);font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;border:1px solid #1A5C3A;margin:2px 4px 2px 0}
+.badge.gold{background:#2A2210;color:var(--gold);border-color:#5C4A1A}
+.badge.blue{background:#0F2A3E;color:var(--blue);border-color:#1A4A6C}
+.badge.red{background:#2A1010;color:var(--red);border-color:#5C1A1A}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px}
+.card.accent{border-left:3px solid var(--gold)}
+.kpi-row{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.kpi{flex:1;min-width:70px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center}
+.kpi .v{font-size:18px;font-weight:700;color:var(--gold);line-height:1.2}
+.kpi .l{font-size:9px;color:var(--gray);margin-top:2px;line-height:1.2}
+.kpi.green .v{color:var(--green)}
+.kpi.blue .v{color:var(--blue)}
+.kpi.red .v{color:var(--red)}
+ul{padding-left:18px;margin:6px 0}
+li{font-size:13px;color:var(--gray);margin-bottom:5px;line-height:1.35}
+li strong{color:var(--white)}
+.so-what{background:#1A2A10;border:1px solid #3A5C1A;border-radius:8px;padding:10px 12px;margin:10px 0;font-size:12px;color:var(--green);line-height:1.4}
+.so-what::before{content:'SO WHAT? ';font-weight:700;color:#5AE87A}
+.takeaway{background:#2A2210;border:1px solid var(--gold);border-radius:8px;padding:10px 12px;margin:10px 0;font-size:12px;color:var(--gold);line-height:1.4}
+.takeaway::before{content:'KEY TAKEAWAY: ';font-weight:700}
+.chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;margin:8px 0}
+.chart-wrap .ct{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:6px}
+canvas{width:100%!important;max-height:200px}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:6px 0}
+th{background:var(--bg2);color:var(--gold);padding:5px 4px;text-align:center;border:1px solid var(--border);font-weight:600}
+td{padding:4px;text-align:center;border:1px solid var(--border);color:var(--gray)}
+td:first-child{text-align:left;color:var(--white);font-weight:500}
+.placeholder{background:#1A1A2A;border:1px dashed #4A4A6A;border-radius:8px;padding:10px;margin:8px 0;font-size:11px;color:#8A8AAA;text-align:center}
+.src{font-size:9px;color:#4A5A6A;margin-top:8px;line-height:1.3}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(7,26,44,.96);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:10px 16px;z-index:100;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nav button{background:var(--card);color:var(--white);border:1px solid var(--border);border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.nav button:active{background:var(--gold);color:var(--bg)}
+.nav .counter{font-size:13px;color:var(--gray);font-weight:600;min-width:50px;text-align:center}
+.cover-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 90px);text-align:center;padding:0 10px}
+.cover-center .tag{background:#0A3A2A;color:var(--green);font-size:11px;font-weight:700;padding:5px 16px;border-radius:14px;border:1px solid #1A5C3A;letter-spacing:1px;margin-bottom:18px}
+.cover-center h1{font-size:30px;line-height:1.2;margin-bottom:14px}
+.cover-center .sub{font-size:13px;max-width:360px}
+.cover-center .footer{font-size:12px;color:#5A6A7A;margin-top:20px}
+.cover-badges{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap;justify-content:center}
+.cover-badges .cb{padding:5px 12px;border-radius:16px;font-size:11px;font-weight:700;border:1px solid}
+.rec-box{background:#0A2A1A;border:2px solid var(--green);border-radius:10px;padding:14px;margin:10px 0;text-align:center}
+.rec-box .big{font-size:20px;font-weight:700;color:var(--green)}
+.rec-box .detail{font-size:12px;color:var(--gray);margin-top:4px}
+.phase{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px;margin:6px 0}
+.phase .pt{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:4px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 6px}
+.legend span{font-size:10px;display:flex;align-items:center;gap:3px;color:var(--gray)}
+.legend .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1: COVER -->
+<div class="slide active" id="s1">
+<div class="cover-center">
+<div class="tag">NLB GROUP | STRATEGY DIVISION</div>
+<h1>Albania <span class="gold">Market Entry Opportunity</span> Assessment</h1>
+<div class="sub">Comprehensive analysis of demographics, macroeconomics, banking sector trends, real estate, and strategic opportunities for NLB Group expansion into the Albanian market.</div>
+<div class="cover-badges">
+<div class="cb" style="background:#0A2A1A;color:var(--green);border-color:#1A5C3A">2.83M Population</div>
+<div class="cb" style="background:#0F2A3E;color:var(--blue);border-color:#1A4A6C">$27.2B GDP</div>
+<div class="cb" style="background:#2A2210;color:var(--gold);border-color:#5C4A1A">11.7M Tourists</div>
+<div class="cb" style="background:#0A2A1A;color:var(--green);border-color:#1A5C3A">4.0% Growth</div>
+</div>
+<div class="footer">Confidential | March 2026</div>
+</div>
+</div>
+
+<!-- SLIDE 2: EXECUTIVE SUMMARY -->
+<div class="slide" id="s2">
+<h1>Executive Summary</h1>
+<div class="sub">Key findings for NLB Group Board</div>
+<div class="card">
+<ul>
+<li><strong>GDP growing at 4.0%</strong> (2024), Lek appreciating to 97.9/EUR (strongest in 25 years) signals economic confidence</li>
+<li><strong>Banking sector EUR 19.2B assets</strong> with only 53% loan-to-deposit ratio — massive untapped lending capacity</li>
+<li><strong>Tourism tripled</strong> from 1.2M to 4.2M accommodation nights (2018-2025); border arrivals hit 11.7M in 2024</li>
+<li><strong>Mortgage penetration ~7-8% of GDP</strong> vs EU average 30-40% — largest single product opportunity</li>
+<li><strong>Construction boomed</strong> to 1,989k m&#178; in 2024 (Tirana 89% share), though 2025 shows cooling (-57% YoY)</li>
+</ul>
+</div>
+<div class="takeaway">Albania offers a compelling entry opportunity for NLB Group. A mid-tier bank acquisition ($150-250M) targeting mortgage, SME, and diaspora segments could achieve 12-15% ROE by Year 5 with a top-5 market position.</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">EUR 24.8B</div><div class="l">GDP 2024</div></div>
+<div class="kpi green"><div class="v">4.0%</div><div class="l">GDP Growth</div></div>
+<div class="kpi blue"><div class="v">12</div><div class="l">Licensed Banks</div></div>
+<div class="kpi"><div class="v">20.2%</div><div class="l">System CAR</div></div>
+</div>
+</div>
+
+<!-- SLIDE 3: MACRO OVERVIEW -->
+<div class="slide" id="s3">
+<h1>Macroeconomic Overview</h1>
+<div class="sub">GDP, inflation & growth trajectory (2020-2025)</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">EUR 24.8B</div><div class="l">GDP 2024</div></div>
+<div class="kpi green"><div class="v">4.0%</div><div class="l">Growth 2024</div></div>
+<div class="kpi"><div class="v">3.3%</div><div class="l">CPI Inflation</div></div>
+<div class="kpi blue"><div class="v">~$9,600</div><div class="l">GDP/Capita</div></div>
+</div>
+<div class="chart-wrap"><div class="ct">GDP Annual Growth Rate (%)</div><canvas id="c3a" height="180"></canvas></div>
+<div class="chart-wrap"><div class="ct">CPI Inflation & BoA Key Rate (%)</div><canvas id="c3b" height="180"></canvas></div>
+<div class="so-what">Consistent 3-5% growth post-COVID, declining inflation, and Lek appreciation signal macroeconomic stability — a strong foundation for banking expansion.</div>
+<div class="src">Source: INSTAT GDP at current prices, Bank of Albania monetary policy reports</div>
+</div>
+
+<!-- SLIDE 4: POPULATION & DEMOGRAPHICS -->
+<div class="slide" id="s4">
+<h1>Population &amp; Demographics</h1>
+<div class="sub">2.83M population with maturing age profile</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">2.83M</div><div class="l">Population 2025</div></div>
+<div class="kpi"><div class="v">38.6</div><div class="l">Median Age</div></div>
+<div class="kpi blue"><div class="v">1.6M</div><div class="l">Diaspora Abroad</div></div>
+</div>
+<div class="chart-wrap"><div class="ct">Population Trend (Millions)</div><canvas id="c4a" height="170"></canvas></div>
+<div class="card">
+<h3>Age Distribution (2023 Census)</h3>
+<table><tr><th>Age Group</th><th>Population</th><th>Share %</th></tr>
+<tr><td>0-14</td><td>467,000</td><td>16.5%</td></tr>
+<tr><td>15-24</td><td>365,000</td><td>12.9%</td></tr>
+<tr><td>25-54</td><td>1,155,000</td><td>40.8%</td></tr>
+<tr><td>55-64</td><td>418,000</td><td>14.8%</td></tr>
+<tr><td>65+</td><td>427,000</td><td>15.1%</td></tr></table>
+</div>
+<div class="src">Source: INSTAT Census 2023, UN World Population Prospects</div>
+</div>
+
+<!-- SLIDE 5: WORKFORCE & URBANIZATION -->
+<div class="slide" id="s5">
+<h1>Workforce &amp; Urbanization</h1>
+<div class="sub">Labor market dynamics and urban growth patterns</div>
+<div class="kpi-row">
+<div class="kpi green"><div class="v">~63%</div><div class="l">Urban Pop.</div></div>
+<div class="kpi"><div class="v">~11%</div><div class="l">Unemployment</div></div>
+<div class="kpi blue"><div class="v">89%</div><div class="l">Tirana Constr. Share</div></div>
+</div>
+<div class="card">
+<h3>Urbanization Trends</h3>
+<ul>
+<li><strong>Tirana metro</strong> accounts for ~35% of population and 89% of construction permits (2024)</li>
+<li><strong>Durres-Tirana corridor</strong> emerging as continuous urban zone with combined ~45% of population</li>
+<li><strong>Coastal cities</strong> (Vlore, Saranda) growing via tourism-driven development</li>
+<li><strong>Rural depopulation</strong> continues — 3-4% annual decline in northern prefectures</li>
+</ul>
+</div>
+<div class="card">
+<h3>Labor Market</h3>
+<ul>
+<li>Unemployment trending down from ~14% (2020) to ~11% (2024)</li>
+<li>Youth unemployment remains elevated at ~22%</li>
+<li>Emigration drains skilled labor — estimated 30,000-40,000 leave annually</li>
+<li>Minimum wage increased to ALL 40,000/month (~EUR 410) in 2024</li>
+</ul>
+</div>
+<div class="src">Source: INSTAT Labor Force Survey, World Bank Development Indicators</div>
+</div>
+
+<!-- SLIDE 6: TOURISM -->
+<div class="slide" id="s6">
+<h1>Tourism Growth</h1>
+<div class="sub">Albania's fastest-growing economic sector</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">11.7M</div><div class="l">Border Arrivals '24</div></div>
+<div class="kpi green"><div class="v">3.18M</div><div class="l">Hotel Nights '24</div></div>
+<div class="kpi"><div class="v">~25%</div><div class="l">GDP Contribution</div></div>
+</div>
+<div class="chart-wrap"><div class="ct">Tourism — Accommodation Nights (Millions)</div><canvas id="c6a" height="180"></canvas>
+<div class="legend"><span><span class="dot" style="background:#D4AF6A"></span>Total</span><span><span class="dot" style="background:#5DADE2"></span>Non-Resident</span></div>
+</div>
+<div class="so-what">Tourism accommodation tripled in 5 years. Non-resident visitors grew from 294K (2020) to 3.04M (2025) — a 10x increase. This drives hotel construction, SME financing demand, and FX inflows. NLB can capture tourism SME lending.</div>
+<div class="src">Source: INSTAT Tourism Statistics (accommodation nights). Border arrivals ~3x accommodation figures.</div>
+</div>
+
+<!-- SLIDE 7: REAL ESTATE -->
+<div class="slide" id="s7">
+<h1>Real Estate Overview</h1>
+<div class="sub">Price trends driven by tourism, diaspora & urbanization</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">EUR 1,350</div><div class="l">Tirana /m&#178; 2024</div></div>
+<div class="kpi"><div class="v">EUR 1,800</div><div class="l">Coastal /m&#178; 2024</div></div>
+<div class="kpi green"><div class="v">+72%</div><div class="l">Tirana 5yr</div></div>
+<div class="kpi green"><div class="v">+100%</div><div class="l">Coast 5yr</div></div>
+</div>
+<div class="chart-wrap"><div class="ct">Average Property Price (EUR/m&#178;)</div><canvas id="c7a" height="180"></canvas>
+<div class="legend"><span><span class="dot" style="background:#5DADE2"></span>Tirana</span><span><span class="dot" style="background:#D4AF6A"></span>Coastal</span></div>
+</div>
+<div class="card">
+<ul>
+<li><strong>Tirana 70m&#178; apartment:</strong> ~EUR 94,500 (2024)</li>
+<li><strong>Coastal 70m&#178; apartment:</strong> ~EUR 126,000 (2024)</li>
+<li><strong>Premium coastal:</strong> EUR 3,500-5,500/m&#178;</li>
+<li><strong>Coastal prices growing faster</strong> (+18% YoY vs Tirana +14%)</li>
+</ul>
+</div>
+<div class="src">Source: Bank of Albania housing index, INSTAT, local market reports</div>
+</div>
+
+<!-- SLIDE 8: CONSTRUCTION -->
+<div class="slide" id="s8">
+<h1>Construction Activity</h1>
+<div class="sub">Building permits by prefecture (area in 000 m&#178;)</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">1,989k</div><div class="l">Total m&#178; 2024</div></div>
+<div class="kpi blue"><div class="v">89%</div><div class="l">Tirana Share</div></div>
+<div class="kpi red"><div class="v">-57%</div><div class="l">2025 YoY</div></div>
+</div>
+<div class="chart-wrap"><div class="ct">Construction Permits — Total Area (000 m&#178;)</div><canvas id="c8a" height="180"></canvas>
+<div class="legend"><span><span class="dot" style="background:#D4AF6A"></span>Total</span><span><span class="dot" style="background:#5DADE2"></span>Tirana</span></div>
+</div>
+<div class="card">
+<h3>Construction Type (2024)</h3>
+<ul>
+<li><strong>Community residences</strong> exploded 16x (65k→1,076k m&#178;) from 2020-2024</li>
+<li><strong>Hotels:</strong> 131k m&#178; in 2025 (volatile YoY)</li>
+<li><strong>2025 sharp decline</strong> (846k m&#178;) — possible market cooling or partial-year data</li>
+</ul>
+</div>
+<div class="src">Source: INSTAT Building Permits by prefecture</div>
+</div>
+
+<!-- SLIDE 9: BANKING SNAPSHOT -->
+<div class="slide" id="s9">
+<h1>Banking Sector Snapshot</h1>
+<div class="sub">System structure, assets & key metrics</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">12</div><div class="l">Banks</div></div>
+<div class="kpi"><div class="v">EUR 19.2B</div><div class="l">Assets 2024</div></div>
+<div class="kpi green"><div class="v">20.2%</div><div class="l">CAR</div></div>
+<div class="kpi"><div class="v">4.6%</div><div class="l">NPL Ratio</div></div>
+</div>
+<div class="card">
+<table><tr><th>Year</th><th>Assets</th><th>Loans</th><th>Deposits</th><th>NPL%</th><th>L/D%</th></tr>
+<tr><td>2020</td><td>15.8</td><td>5.2</td><td>11.4</td><td>8.1</td><td>45.6</td></tr>
+<tr><td>2021</td><td>16.5</td><td>5.6</td><td>12.0</td><td>7.1</td><td>46.7</td></tr>
+<tr><td>2022</td><td>17.1</td><td>6.1</td><td>12.5</td><td>5.8</td><td>48.8</td></tr>
+<tr><td>2023</td><td>18.0</td><td>6.4</td><td>13.2</td><td>5.0</td><td>48.5</td></tr>
+<tr><td>2024</td><td>19.2</td><td>7.5</td><td>14.0</td><td>4.6</td><td>53.6</td></tr>
+<tr><td>2025E</td><td>20.5</td><td>8.5</td><td>15.0</td><td>4.2</td><td>56.7</td></tr></table>
+<div style="font-size:10px;color:var(--gray);margin-top:4px">All values in EUR billions</div>
+</div>
+<div class="src">Source: Bank of Albania, thebanks.eu, IMF FSAP 2025</div>
+</div>
+
+<!-- SLIDE 10: BANKING GROWTH -->
+<div class="slide" id="s10">
+<h1>Banking Sector Growth</h1>
+<div class="sub">Loan & deposit expansion trend</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">EUR 7.5B</div><div class="l">Loans 2024</div></div>
+<div class="kpi green"><div class="v">+17.2%</div><div class="l">Loan Growth YoY</div></div>
+<div class="kpi"><div class="v">EUR 14.0B</div><div class="l">Deposits 2024</div></div>
+<div class="kpi"><div class="v">53.6%</div><div class="l">Loan/Deposit</div></div>
+</div>
+<div class="chart-wrap"><div class="ct">Loans vs Deposits (EUR Billions)</div><canvas id="c10a" height="180"></canvas>
+<div class="legend"><span><span class="dot" style="background:#D4AF6A"></span>Loans</span><span><span class="dot" style="background:#A8B3C2"></span>Deposits</span></div>
+</div>
+<div class="so-what">Loan-to-deposit ratio at 53% is well below EU average (90-110%), signaling massive untapped lending capacity. Credit growth accelerated to 17% in 2024, driven by mortgages and business lending. NLB can deploy deposits productively.</div>
+<div class="src">Source: Bank of Albania Governor's Report 2024</div>
+</div>
+
+<!-- SLIDE 11: LOAN PORTFOLIO BY SEGMENT -->
+<div class="slide" id="s11">
+<h1>Loan Portfolio by Segment</h1>
+<div class="sub">Total system loans EUR 7.5B (2024) — segment breakdown</div>
+<div class="chart-wrap"><div class="ct">Loan Portfolio Segmentation (% of Total, 2024)</div><canvas id="c11a" height="200"></canvas></div>
+<div class="card">
+<table><tr><th>Segment</th><th>Share %</th><th>EUR B</th><th>Trend</th></tr>
+<tr><td>Large Corporate</td><td>34%</td><td>2.55</td><td>Stable</td></tr>
+<tr><td>SME</td><td>24%</td><td>1.80</td><td>Growing +12% YoY</td></tr>
+<tr><td>Personal / Individual</td><td>30%</td><td>2.25</td><td>Growing +20% YoY</td></tr>
+<tr><td>Micro Enterprise</td><td>12%</td><td>0.90</td><td>Growing +8% YoY</td></tr></table>
+</div>
+<div class="card accent">
+<strong style="color:var(--gold)">NLB Angle:</strong> <span style="font-size:12px;color:var(--gray)">PI segment (30%) is the fastest growing, driven by mortgages and consumer credit. SME lending is under-served relative to SME's GDP contribution (~70%). Both segments are NLB's core strengths in Slovenia and Kosovo.</span>
+</div>
+<div class="src">Source: Bank of Albania Credit Registry, IMF Article IV 2024</div>
+</div>
+
+<!-- SLIDE 12: LOAN PRODUCT MIX -->
+<div class="slide" id="s12">
+<h1>Loan Product Mix</h1>
+<div class="sub">Breakdown by product type (2024)</div>
+<div class="chart-wrap"><div class="ct">Loan Product Mix (% of Total Loans)</div><canvas id="c12a" height="200"></canvas></div>
+<div class="card">
+<table><tr><th>Product</th><th>Share</th><th>EUR B</th><th>Note</th></tr>
+<tr><td>Housing / Mortgage</td><td>28%</td><td>2.10</td><td>Fastest growing segment</td></tr>
+<tr><td>Business Long-term</td><td>26%</td><td>1.95</td><td>Infrastructure + RE development</td></tr>
+<tr><td>Business Short-term</td><td>22%</td><td>1.65</td><td>Working capital / trade</td></tr>
+<tr><td>Consumer Credit</td><td>18%</td><td>1.35</td><td>Cards, auto, personal</td></tr>
+<tr><td>Other</td><td>6%</td><td>0.45</td><td>Overdrafts, guarantees</td></tr></table>
+</div>
+<div class="card accent">
+<strong style="color:var(--gold)">Insight:</strong> <span style="font-size:12px;color:var(--gray)">Housing loans at 28% are growing fastest (~22% YoY) driven by rising property prices and diaspora buyers. Mortgage-to-GDP ratio ~7-8% vs EU 30-40% = 4x growth potential.</span>
+</div>
+<div class="src">Source: Bank of Albania Lending Survey 2024, system aggregate data</div>
+</div>
+
+<!-- SLIDE 13: LENDING RATE TRENDS -->
+<div class="slide" id="s13">
+<h1>Lending Interest Rate Trends</h1>
+<div class="sub">Rates by product segment (2020-2025)</div>
+<div class="chart-wrap"><div class="ct">Lending Rates by Product (%)</div><canvas id="c13a" height="200"></canvas>
+<div class="legend"><span><span class="dot" style="background:#D4AF6A"></span>Housing</span><span><span class="dot" style="background:#A8B3C2"></span>Consumer</span><span><span class="dot" style="background:#5DADE2"></span>Biz ST</span><span><span class="dot" style="background:#F2F2F2"></span>Biz LT</span></div>
+</div>
+<div class="card">
+<table><tr><th>Product</th><th>2020</th><th>2022</th><th>2024</th><th>Chg</th></tr>
+<tr><td>Housing</td><td>3.2%</td><td>3.6%</td><td>5.5%</td><td style="color:var(--red)">+2.3pp</td></tr>
+<tr><td>Consumer</td><td>6.5%</td><td>7.0%</td><td>8.2%</td><td style="color:var(--red)">+1.7pp</td></tr>
+<tr><td>Business ST</td><td>3.8%</td><td>4.2%</td><td>5.5%</td><td style="color:var(--red)">+1.7pp</td></tr>
+<tr><td>Business LT</td><td>4.5%</td><td>5.0%</td><td>6.0%</td><td style="color:var(--red)">+1.5pp</td></tr></table>
+</div>
+<div class="so-what">Rates rose sharply in 2022-2024 following BoA tightening (key rate 0.5%→3.25%). Housing rates at 5.5% remain competitive vs regional peers. Consumer lending offers highest NIM but carries higher NPL risk. BoA signaling easing in 2025 (rate cut to 2.75%).</div>
+<div class="src">Source: Bank of Albania Interest Rate Statistics, Monetary Policy Reports</div>
+</div>
+
+<!-- SLIDE 14: DEPOSIT STRUCTURE -->
+<div class="slide" id="s14">
+<h1>Deposit Structure</h1>
+<div class="sub">EUR 14.0B total deposits — composition analysis</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">EUR 14.0B</div><div class="l">Total Deposits</div></div>
+<div class="kpi"><div class="v">75%</div><div class="l">Household</div></div>
+<div class="kpi blue"><div class="v">25%</div><div class="l">Corporate</div></div>
+</div>
+<div class="chart-wrap"><div class="ct">Deposit Composition (2024)</div><canvas id="c14a" height="200"></canvas></div>
+<div class="card">
+<table><tr><th>Category</th><th>Share</th><th>EUR B</th><th>Avg Rate</th></tr>
+<tr><td>Household Term</td><td>45%</td><td>6.30</td><td>2.8%</td></tr>
+<tr><td>Household Demand</td><td>30%</td><td>4.20</td><td>0.2%</td></tr>
+<tr><td>Corporate Term</td><td>14%</td><td>1.96</td><td>2.2%</td></tr>
+<tr><td>Corporate Demand</td><td>11%</td><td>1.54</td><td>0.1%</td></tr></table>
+</div>
+<div class="card accent">
+<strong style="color:var(--gold)">Key:</strong> <span style="font-size:12px;color:var(--gray)">41% of deposits are demand (near-zero cost), providing cheap funding. High household share (75%) indicates retail-dominated funding base — stable but rate-sensitive to competition.</span>
+</div>
+<div class="src">Source: Bank of Albania, aggregate banking statistics 2024</div>
+</div>
+
+<!-- SLIDE 15: DEPOSIT RATE TRENDS -->
+<div class="slide" id="s15">
+<h1>Deposit Interest Rate Trends</h1>
+<div class="sub">Funding cost evolution (2020-2025)</div>
+<div class="chart-wrap"><div class="ct">Deposit Rates by Type (%)</div><canvas id="c15a" height="200"></canvas>
+<div class="legend"><span><span class="dot" style="background:#D4AF6A"></span>HH Term</span><span><span class="dot" style="background:#A8B3C2"></span>Corp Term</span><span><span class="dot" style="background:#5DADE2"></span>BoA Key Rate</span></div>
+</div>
+<div class="card">
+<table><tr><th>Deposit Type</th><th>2020</th><th>2022</th><th>2024</th><th>Chg</th></tr>
+<tr><td>Household Term</td><td>0.6%</td><td>1.2%</td><td>2.8%</td><td style="color:var(--red)">+2.2pp</td></tr>
+<tr><td>Corporate Term</td><td>0.4%</td><td>0.9%</td><td>2.2%</td><td style="color:var(--red)">+1.8pp</td></tr>
+<tr><td>HH Demand</td><td>0.1%</td><td>0.1%</td><td>0.2%</td><td>+0.1pp</td></tr>
+<tr><td>Corp Demand</td><td>0.1%</td><td>0.1%</td><td>0.1%</td><td>flat</td></tr></table>
+</div>
+<div class="so-what">Deposit rates lagged the lending rate increases, expanding NIMs in 2022-2023. As BoA cuts rates in 2025, deposit costs should ease faster than lending rates, supporting profitability. Demand deposits remain near-zero cost — a structural advantage.</div>
+<div class="src">Source: Bank of Albania Interest Rate Statistics</div>
+</div>
+
+<!-- SLIDE 16: MARGIN & PROFITABILITY -->
+<div class="slide" id="s16">
+<h1>Margin &amp; Profitability</h1>
+<div class="sub">System-level NIM, ROA, ROE indicators</div>
+<div class="chart-wrap"><div class="ct">Net Interest Margin (NIM) %</div><canvas id="c16a" height="170"></canvas></div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">3.2%</div><div class="l">NIM 2024</div></div>
+<div class="kpi green"><div class="v">1.6%</div><div class="l">ROA 2024</div></div>
+<div class="kpi"><div class="v">15.8%</div><div class="l">ROE 2024</div></div>
+<div class="kpi"><div class="v">48%</div><div class="l">Cost/Income</div></div>
+</div>
+<div class="card">
+<table><tr><th>Metric</th><th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th></tr>
+<tr><td>NIM %</td><td>2.5</td><td>2.5</td><td>2.3</td><td>2.6</td><td>3.2</td></tr>
+<tr><td>ROA %</td><td>0.9</td><td>1.0</td><td>1.1</td><td>1.3</td><td>1.6</td></tr>
+<tr><td>ROE %</td><td>8.5</td><td>9.8</td><td>11.2</td><td>13.5</td><td>15.8</td></tr>
+<tr><td>NPL %</td><td>8.1</td><td>7.1</td><td>5.8</td><td>5.0</td><td>4.6</td></tr></table>
+</div>
+<div class="card accent">
+<strong style="color:var(--gold)">Trend:</strong> <span style="font-size:12px;color:var(--gray)">Profitability improved significantly 2020→2024: ROE nearly doubled, NPLs halved. NIM expansion driven by rate hikes outpacing deposit cost increases. Albanian banking is among the most profitable in the Western Balkans.</span>
+</div>
+<div class="src">Source: Bank of Albania Financial Stability Report, IMF FSAP 2025. Some values are estimates based on aggregate system data.</div>
+</div>
+
+<!-- SLIDE 17: MORTGAGE MARKET POTENTIAL -->
+<div class="slide" id="s17">
+<h1>Mortgage Market Potential</h1>
+<div class="sub">Under-penetrated segment with powerful growth drivers</div>
+<div class="kpi-row">
+<div class="kpi"><div class="v">~7-8%</div><div class="l">Mortgage/GDP</div></div>
+<div class="kpi green"><div class="v">30-40%</div><div class="l">EU Average</div></div>
+<div class="kpi"><div class="v">EUR 2.1B</div><div class="l">Housing Loans</div></div>
+<div class="kpi green"><div class="v">+22%</div><div class="l">YoY Growth</div></div>
+</div>
+<div class="card">
+<h3>Growth Drivers</h3>
+<ul>
+<li><strong>Rising property prices</strong> — Tirana +72%, coast +100% in 5 years = larger mortgages</li>
+<li><strong>Community residence boom</strong> — INSTAT shows 16x increase in residential permits (2020-2024)</li>
+<li><strong>Diaspora demand</strong> — 1.6M Albanians abroad invest in homeland properties; need EUR mortgages</li>
+<li><strong>Rate environment</strong> — Housing at 5.5%, declining as BoA eases; affordable for growing middle class</li>
+<li><strong>Low penetration</strong> — 4x room for growth vs EU average mortgage-to-GDP ratio</li>
+</ul>
+</div>
+<div class="card">
+<h3>Mortgage Sizing</h3>
+<ul>
+<li><strong>Current market:</strong> EUR 2.1B outstanding</li>
+<li><strong>Potential at EU average:</strong> EUR 7.5-10.0B (3.5-5x current)</li>
+<li><strong>NLB target (10% share by Yr 5):</strong> EUR 750M-1.0B mortgage book</li>
+</ul>
+</div>
+<div class="src">Source: Bank of Albania, INSTAT construction data, World Bank</div>
+</div>
+
+<!-- SLIDE 18: COMPETITIVE LANDSCAPE -->
+<div class="slide" id="s18">
+<h1>Competitive Landscape</h1>
+<div class="sub">Bank market share by assets (2024)</div>
+<div class="chart-wrap"><div class="ct">Market Share by Total Assets (%)</div><canvas id="c18a" height="200"></canvas></div>
+<div class="card">
+<table><tr><th>Bank</th><th>Share</th><th>Owner</th><th>Position</th></tr>
+<tr><td>BKT (NCB)</td><td>24.6%</td><td>Calik (TR)</td><td>Market leader</td></tr>
+<tr><td>Credins</td><td>16.5%</td><td>Local</td><td>Largest local bank</td></tr>
+<tr><td>Raiffeisen</td><td>14.8%</td><td>Austria</td><td>Premium segment</td></tr>
+<tr><td>Intesa Sanpaolo</td><td>11.2%</td><td>Italy</td><td>Corporate focus</td></tr>
+<tr><td>OTP Bank</td><td>10.5%</td><td>Hungary</td><td>Regional player</td></tr>
+<tr><td>Fibank</td><td>5.8%</td><td>Bulgaria</td><td>Growing retail</td></tr>
+<tr><td>Others (6)</td><td>16.6%</td><td>Various</td><td>Niche / small</td></tr></table>
+</div>
+<div class="card accent">
+<strong style="color:var(--gold)">NLB Entry Path:</strong> <span style="font-size:12px;color:var(--gray)">Acquire Fibank (5.8%) or similar mid-tier player. OTP is the closest competitor model — NLB brings superior digital platform, EU backing, and regional SEE corridor synergies (SI, MK, KS, RS, ME).</span>
+</div>
+<div class="src">Source: Bank of Albania, thebanks.eu (2024 asset data)</div>
+</div>
+
+<!-- SLIDE 19: STRATEGIC OPPORTUNITY -->
+<div class="slide" id="s19">
+<h1>NLB Strategic Opportunity</h1>
+<div class="sub">Why NLB can win in Albania</div>
+<div class="card" style="border-left:3px solid var(--green)">
+<h3 style="color:var(--green)">1. Mortgage & Housing Finance</h3>
+<ul><li>EUR-denominated mortgages for diaspora buyers</li><li>4x market growth potential (7%→30% of GDP)</li><li>Rising prices = larger loan sizes = higher margins</li></ul>
+</div>
+<div class="card" style="border-left:3px solid var(--blue)">
+<h3 style="color:var(--blue)">2. SME & Tourism Lending</h3>
+<ul><li>Tourism SMEs under-served; hotel construction booming</li><li>NLB's SME platform from SI/MK directly transferable</li><li>Working capital + investment loans for hospitality sector</li></ul>
+</div>
+<div class="card" style="border-left:3px solid var(--gold)">
+<h3 style="color:var(--gold)">3. Digital-First Banking</h3>
+<ul><li>NLB Klik = best-in-class digital platform in SEE</li><li>Albania at 55% internet banking vs 85% EU = 30pp gap</li><li>Young population (median 38.6) is digital-ready</li></ul>
+</div>
+<div class="card" style="border-left:3px solid #BB86FC">
+<h3 style="color:#BB86FC">4. Diaspora Corridors & Deposits</h3>
+<ul><li>$2.3B remittances (8.4% GDP) — NLB operates in key source markets</li><li>Cross-border transfer products + FX services</li><li>Low-cost deposit gathering from diaspora accounts</li></ul>
+</div>
+<div class="so-what">NLB's regional SEE footprint (SI, MK, KS, RS, ME), digital platform, and EUR operations make Albania a natural next market. Acquisition of a 5-8% player creates an immediate beachhead with synergies from Day 1.</div>
+</div>
+
+<!-- SLIDE 20: FINAL RECOMMENDATION -->
+<div class="slide" id="s20">
+<h1>Final Recommendation</h1>
+<div class="sub">Strategic verdict & proposed entry roadmap</div>
+<div class="rec-box"><div class="big">RECOMMEND: PROCEED WITH MARKET ENTRY</div><div class="detail">GDP EUR 24.8B growing at 4.0%, tourism tripled, mortgage market 4x under-penetrated, banking system well-capitalized (CAR 20.2%) and profitable (ROE 15.8%).</div></div>
+<div class="phase"><div class="pt">Phase 1: Entry (Year 1)</div>
+<ul><li>Acquire mid-tier bank (5-10% share) — est. $150-250M</li><li>Bank of Albania license approval</li><li>Rebrand & integrate NLB digital platform</li></ul></div>
+<div class="phase"><div class="pt">Phase 2: Growth (Years 2-3)</div>
+<ul><li>Expand mortgage & RE lending (EUR products)</li><li>Tourism sector SME financing</li><li>Launch diaspora remittance corridor products</li></ul></div>
+<div class="phase"><div class="pt">Phase 3: Scale (Years 4-5)</div>
+<ul><li>Target top-5 position (~12% market share)</li><li>Cross-sell insurance & investment products</li><li>Corporate & infrastructure lending</li></ul></div>
+<div class="kpi-row">
+<div class="kpi green"><div class="v">$150-250M</div><div class="l">Acquisition</div></div>
+<div class="kpi"><div class="v">12-15%</div><div class="l">Target ROE Yr5</div></div>
+<div class="kpi blue"><div class="v">Top 5</div><div class="l">Market Position</div></div>
+<div class="kpi"><div class="v">4-5 Yrs</div><div class="l">Payback Period</div></div>
+</div>
+<div style="text-align:center;margin-top:10px;font-size:11px;color:#4A5A6A">NLB Group | Strategy Division | Confidential | March 2026</div>
+<div style="margin-top:8px;font-size:9px;color:#3A4A5A;line-height:1.4"><strong>Sources:</strong> INSTAT (Macro_Albania.xlsx), Bank of Albania, World Bank, IMF Article IV & FSAP 2025, thebanks.eu, INSTAT Census 2023, UN Population Prospects, European Commission Progress Report 2024. Banking-specific data: BoA Governor's Report, Financial Stability Report, Interest Rate Statistics. Lending/deposit segment splits are system-level estimates based on BoA aggregates. Rate trends from BoA monetary policy publications. Profitability metrics derived from system aggregate financials.</div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAVIGATION -->
+<div class="nav">
+<button id="prev" onclick="go(-1)">&#9664; Prev</button>
+<div class="counter"><span id="cur">1</span> / <span id="tot">20</span></div>
+<button id="next" onclick="go(1)">Next &#9654;</button>
+</div>
+
+<script>
+var cur=1,tot=20;
+function go(d){var n=cur+d;if(n<1||n>tot)return;show(n)}
+function show(n){document.getElementById('s'+cur).classList.remove('active');cur=n;document.getElementById('s'+cur).classList.add('active');document.getElementById('cur').textContent=cur;document.getElementById('s'+cur).scrollTop=0}
+
+// Swipe
+var tx=0,ty=0;
+document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){dx<0?go(1):go(-1)}},{passive:true});
+
+// Keyboard
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+
+// CHARTS
+function drawBar(id,labels,datasets,opts){
+var c=document.getElementById(id);if(!c)return;var ctx=c.getContext('2d');
+var W=c.parentElement.clientWidth-20;c.width=W*2;c.height=(opts&&opts.h||180)*2;c.style.width=W+'px';c.style.height=(opts&&opts.h||180)+'px';
+ctx.scale(2,2);var w=W,h=opts&&opts.h||180;
+var pl=40,pr=10,pt=10,pb=30;var cw=w-pl-pr,ch=h-pt-pb;
+var n=labels.length;var allVals=[];datasets.forEach(function(ds){ds.data.forEach(function(v){allVals.push(v)})});
+var mx=Math.max.apply(null,allVals)*1.15;var mn=opts&&opts.mn!==undefined?opts.mn:Math.min(0,Math.min.apply(null,allVals));
+if(mx===mn)mx=mn+1;
+var gw=cw/n,bw=gw*0.6/datasets.length,gap=(gw-bw*datasets.length)/2;
+
+// Grid
+ctx.strokeStyle='#1A3A5C';ctx.lineWidth=0.5;
+for(var i=0;i<=4;i++){var y=pt+ch-ch*(i/4);ctx.beginPath();ctx.moveTo(pl,y);ctx.lineTo(w-pr,y);ctx.stroke();
+ctx.fillStyle='#5A6A7A';ctx.font='9px -apple-system,sans-serif';ctx.textAlign='right';
+ctx.fillText((mn+(mx-mn)*(i/4)).toFixed(opts&&opts.dec!==undefined?opts.dec:1),pl-4,y+3)}
+
+// Labels
+ctx.fillStyle='#5A6A7A';ctx.font='9px -apple-system,sans-serif';ctx.textAlign='center';
+labels.forEach(function(l,i){ctx.fillText(l,pl+gw*i+gw/2,h-pb+14)});
+
+// Bars
+datasets.forEach(function(ds,di){
+ctx.fillStyle=ds.color||'#D4AF6A';
+ds.data.forEach(function(v,i){
+var bx=pl+gw*i+gap+bw*di;var by=pt+ch-ch*((v-mn)/(mx-mn));var bh=ch*((v-mn)/(mx-mn));
+if(bh<0){by=pt+ch-ch*((0-mn)/(mx-mn));bh=-bh}
+ctx.beginPath();ctx.roundRect?ctx.roundRect(bx,by,bw,bh,2):ctx.rect(bx,by,bw,bh);ctx.fill()})});
+}
+
+function drawLine(id,labels,datasets,opts){
+var c=document.getElementById(id);if(!c)return;var ctx=c.getContext('2d');
+var W=c.parentElement.clientWidth-20;c.width=W*2;c.height=(opts&&opts.h||180)*2;c.style.width=W+'px';c.style.height=(opts&&opts.h||180)+'px';
+ctx.scale(2,2);var w=W,h=opts&&opts.h||180;
+var pl=40,pr=10,pt=10,pb=30;var cw=w-pl-pr,ch=h-pt-pb;
+var n=labels.length;var allVals=[];datasets.forEach(function(ds){ds.data.forEach(function(v){if(v!==null)allVals.push(v)})});
+var mx=Math.max.apply(null,allVals)*1.15;var mn=opts&&opts.mn!==undefined?opts.mn:Math.min.apply(null,allVals)*0.85;
+if(mx===mn)mx=mn+1;
+
+ctx.strokeStyle='#1A3A5C';ctx.lineWidth=0.5;
+for(var i=0;i<=4;i++){var y=pt+ch-ch*(i/4);ctx.beginPath();ctx.moveTo(pl,y);ctx.lineTo(w-pr,y);ctx.stroke();
+ctx.fillStyle='#5A6A7A';ctx.font='9px -apple-system,sans-serif';ctx.textAlign='right';
+ctx.fillText((mn+(mx-mn)*(i/4)).toFixed(opts&&opts.dec!==undefined?opts.dec:1),pl-4,y+3)}
+
+ctx.fillStyle='#5A6A7A';ctx.font='9px -apple-system,sans-serif';ctx.textAlign='center';
+labels.forEach(function(l,i){ctx.fillText(l,pl+cw/(n-1)*i,h-pb+14)});
+
+datasets.forEach(function(ds){
+ctx.strokeStyle=ds.color||'#D4AF6A';ctx.lineWidth=2;ctx.beginPath();
+var started=false;
+ds.data.forEach(function(v,i){if(v===null)return;
+var x=pl+cw/(n-1)*i,y=pt+ch-ch*((v-mn)/(mx-mn));
+if(!started){ctx.moveTo(x,y);started=true}else ctx.lineTo(x,y)});
+ctx.stroke();
+// Dots
+ctx.fillStyle=ds.color||'#D4AF6A';
+ds.data.forEach(function(v,i){if(v===null)return;
+var x=pl+cw/(n-1)*i,y=pt+ch-ch*((v-mn)/(mx-mn));
+ctx.beginPath();ctx.arc(x,y,3,0,Math.PI*2);ctx.fill()})});
+}
+
+function drawPie(id,slices,opts){
+var c=document.getElementById(id);if(!c)return;var ctx=c.getContext('2d');
+var W=c.parentElement.clientWidth-20;var H=opts&&opts.h||200;
+c.width=W*2;c.height=H*2;c.style.width=W+'px';c.style.height=H+'px';
+ctx.scale(2,2);
+var total=0;slices.forEach(function(s){total+=s.v});
+var cx=W/2,cy=H/2-10,r=Math.min(cx,cy)-20;
+var a=-Math.PI/2;
+slices.forEach(function(s){
+var sa=a,ea=a+2*Math.PI*(s.v/total);
+ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();
+ctx.fillStyle=s.c;ctx.fill();
+// Label
+var ma=(sa+ea)/2;var lx=cx+Math.cos(ma)*(r*0.65);var ly=cy+Math.sin(ma)*(r*0.65);
+ctx.fillStyle='#F2F2F2';ctx.font='bold 9px -apple-system,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+if(s.v/total>0.06)ctx.fillText(s.l,lx,ly);
+a=ea});
+// Legend below
+var lx=10,ly=H-14;
+ctx.font='9px -apple-system,sans-serif';
+slices.forEach(function(s){
+ctx.fillStyle=s.c;ctx.fillRect(lx,ly-6,8,8);
+ctx.fillStyle='#A8B3C2';ctx.textAlign='left';ctx.fillText(s.l+' ('+s.v+'%)',lx+11,ly+1);
+lx+=ctx.measureText(s.l+' ('+s.v+'%)').width+20;
+if(lx>W-40){lx=10;ly+=14}
+})
+}
+
+function drawHBar(id,items,opts){
+var c=document.getElementById(id);if(!c)return;var ctx=c.getContext('2d');
+var W=c.parentElement.clientWidth-20;var H=opts&&opts.h||200;
+c.width=W*2;c.height=H*2;c.style.width=W+'px';c.style.height=H+'px';
+ctx.scale(2,2);
+var mx=Math.max.apply(null,items.map(function(i){return i.v}));
+var barH=22,gap=8,pl=90,pr=30;
+items.forEach(function(it,i){
+var y=10+i*(barH+gap);var bw=(W-pl-pr)*(it.v/mx);
+ctx.fillStyle=it.c||'#D4AF6A';
+ctx.beginPath();ctx.roundRect?ctx.roundRect(pl,y,bw,barH,3):ctx.rect(pl,y,bw,barH);ctx.fill();
+ctx.fillStyle='#A8B3C2';ctx.font='10px -apple-system,sans-serif';ctx.textAlign='right';ctx.textBaseline='middle';
+ctx.fillText(it.l,pl-6,y+barH/2);
+ctx.fillStyle='#F2F2F2';ctx.font='bold 10px -apple-system,sans-serif';ctx.textAlign='left';
+ctx.fillText(it.v.toFixed(1)+'%',pl+bw+5,y+barH/2)});
+}
+
+// RENDER ALL CHARTS
+window.addEventListener('load',function(){
+// S3: GDP Growth
+drawBar('c3a',['2020','2021','2022','2023','2024','2025E'],[
+{data:[-4.2,4.2,5.4,3.0,4.0,3.4],color:'#D4AF6A'}],{mn:-5,dec:1});
+
+// S3b: Inflation + Key Rate
+drawLine('c3b',['2020','2021','2022','2023','2024','2025E'],[
+{data:[1.6,2.0,6.7,4.8,3.3,2.8],color:'#D4AF6A'},
+{data:[0.5,0.5,2.75,3.0,3.25,2.75],color:'#5DADE2'}],{mn:0,dec:1});
+
+// S4: Population
+drawBar('c4a',['2018','2019','2020','2021','2022','2023','2024','2025'],[
+{data:[2.87,2.85,2.84,2.83,2.81,2.79,2.85,2.83],color:'#5DADE2'}],{mn:2.7,dec:2,h:170});
+
+// S6: Tourism
+drawBar('c6a',['2018','2019','2020','2021','2022','2023','2024','2025'],[
+{data:[1.24,1.25,0.67,1.19,1.57,2.34,3.18,4.20],color:'#D4AF6A'},
+{data:[0.77,0.78,0.29,0.67,0.89,1.41,2.19,3.04],color:'#5DADE2'}],{mn:0,dec:1});
+
+// S7: Real Estate
+drawLine('c7a',['2020','2021','2022','2023','2024','2025E'],[
+{data:[785,880,1020,1180,1350,1500],color:'#5DADE2'},
+{data:[900,1050,1280,1520,1800,2100],color:'#D4AF6A'}],{mn:500,dec:0});
+
+// S8: Construction
+drawBar('c8a',['2020','2021','2022','2023','2024','2025'],[
+{data:[1198,2217,2058,1608,1989,846],color:'#D4AF6A'},
+{data:[948,1438,1605,1242,1768,640],color:'#5DADE2'}],{mn:0,dec:0});
+
+// S10: Loans vs Deposits
+drawLine('c10a',['2020','2021','2022','2023','2024','2025E'],[
+{data:[5.2,5.6,6.1,6.4,7.5,8.5],color:'#D4AF6A'},
+{data:[11.4,12.0,12.5,13.2,14.0,15.0],color:'#A8B3C2'}],{mn:4,dec:1});
+
+// S11: Loan Portfolio Segments
+drawPie('c11a',[
+{l:'Large Corp',v:34,c:'#D4AF6A'},
+{l:'PI/Retail',v:30,c:'#5DADE2'},
+{l:'SME',v:24,c:'#A8B3C2'},
+{l:'Micro',v:12,c:'#2ECC71'}]);
+
+// S12: Loan Product Mix
+drawPie('c12a',[
+{l:'Housing',v:28,c:'#D4AF6A'},
+{l:'Biz LT',v:26,c:'#A8B3C2'},
+{l:'Biz ST',v:22,c:'#5DADE2'},
+{l:'Consumer',v:18,c:'#2ECC71'},
+{l:'Other',v:6,c:'#7F8C8D'}]);
+
+// S13: Lending Rates
+drawLine('c13a',['2020','2021','2022','2023','2024','2025E'],[
+{data:[3.2,3.0,3.6,4.8,5.5,5.2],color:'#D4AF6A'},
+{data:[6.5,6.2,7.0,7.8,8.2,7.8],color:'#A8B3C2'},
+{data:[3.8,3.5,4.2,5.0,5.5,5.2],color:'#5DADE2'},
+{data:[4.5,4.2,5.0,5.6,6.0,5.7],color:'#F2F2F2'}],{mn:2,dec:1});
+
+// S14: Deposit Structure
+drawPie('c14a',[
+{l:'HH Term',v:45,c:'#D4AF6A'},
+{l:'HH Demand',v:30,c:'#A8B3C2'},
+{l:'Corp Term',v:14,c:'#5DADE2'},
+{l:'Corp Demand',v:11,c:'#2ECC71'}]);
+
+// S15: Deposit Rates
+drawLine('c15a',['2020','2021','2022','2023','2024','2025E'],[
+{data:[0.6,0.5,1.2,2.0,2.8,2.5],color:'#D4AF6A'},
+{data:[0.4,0.3,0.9,1.6,2.2,1.9],color:'#A8B3C2'},
+{data:[0.5,0.5,2.75,3.0,3.25,2.75],color:'#5DADE2'}],{mn:0,dec:1});
+
+// S16: NIM
+drawLine('c16a',['2020','2021','2022','2023','2024'],[
+{data:[2.5,2.5,2.3,2.6,3.2],color:'#D4AF6A'}],{mn:1.5,dec:1,h:170});
+
+// S18: Market Share
+drawHBar('c18a',[
+{l:'BKT',v:24.6,c:'#D4AF6A'},
+{l:'Credins',v:16.5,c:'#A8B3C2'},
+{l:'Raiffeisen',v:14.8,c:'#5DADE2'},
+{l:'Intesa SP',v:11.2,c:'#2ECC71'},
+{l:'OTP',v:10.5,c:'#E74C3C'},
+{l:'Fibank',v:5.8,c:'#BB86FC'},
+{l:'Others',v:16.6,c:'#7F8C8D'}]);
+
+});
+
+// Redraw on resize
+var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){location.reload()},300)});
+</script>
+</body>
+</html>
