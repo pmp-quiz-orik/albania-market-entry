@@ -40,7 +40,7 @@ li strong{color:var(--white)}
 .takeaway::before{content:'KEY TAKEAWAY: ';font-weight:700}
 .chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;margin:8px 0}
 .chart-wrap .ct{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:6px}
-canvas{width:100%!important;max-height:200px}
+canvas{display:block}
 table{width:100%;border-collapse:collapse;font-size:11px;margin:6px 0}
 th{background:var(--bg2);color:var(--gold);padding:5px 4px;text-align:center;border:1px solid var(--border);font-weight:600}
 td{padding:4px;text-align:center;border:1px solid var(--border);color:var(--gray)}
@@ -626,6 +626,9 @@ ctx.fillText(it.v.toFixed(1)+'%',pl+bw+5,y+barH/2)});
 
 // RENDER ALL CHARTS
 window.addEventListener('load',function(){
+// Temporarily show all slides so canvas parents have measurable width
+var slides=document.querySelectorAll('.slide');
+slides.forEach(function(s){s.style.display='block';s.style.visibility='hidden';s.style.position='absolute'});
 // S3: GDP Growth
 drawBar('c3a',['2020','2021','2022','2023','2024','2025E'],[
 {data:[-4.2,4.2,5.4,3.0,4.0,3.4],color:'#D4AF6A'}],{mn:-5,dec:1});
@@ -708,6 +711,8 @@ drawHBar('c18a',[
 {l:'Fibank',v:5.8,c:'#BB86FC'},
 {l:'Others',v:16.6,c:'#7F8C8D'}]);
 
+// Restore slide visibility
+slides.forEach(function(s){s.style.display='';s.style.visibility='';s.style.position=''});
 });
 
 // Redraw on resize
